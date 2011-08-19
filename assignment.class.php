@@ -16,7 +16,7 @@ class assignment_mahara extends assignment_base {
 
     function view() {
 
-        global $CFG, $USER;
+        global $CFG, $USER, $DB;
 
         $saved = optional_param('saved', 0, PARAM_BOOL);
 
@@ -62,7 +62,7 @@ class assignment_mahara extends assignment_base {
             $data = unserialize($submission->data2);
             echo '<div><strong>' . get_string('selectedview', 'assignment_mahara') . ': </strong>'
               . '<a href="' . $CFG->wwwroot . '/auth/mnet/jump.php?hostid=' . $this->remote_mnet_host_id()
-              . '&amp;wantsurl=' . urlencode($data['url']) . '">' 
+              . '&amp;wantsurl=' . urlencode($data['url']) . '">'
               . $data['title'] . '</a></div>';
         }
 
@@ -78,7 +78,7 @@ class assignment_mahara extends assignment_base {
             if ($error) {
                 echo $error;
             } else {
-                $this->remotehost = get_record('mnet_host', 'id', $this->remote_mnet_host_id());
+                $this->remotehost = $DB->get_record('mnet_host', array('id'=>$this->remote_mnet_host_id()));
                 $this->remotehost->jumpurl = $CFG->wwwroot . '/auth/mnet/jump.php?hostid=' . $this->remotehost->id;
                 echo '<form><div>' . get_string('selectmaharaview', 'assignment_mahara', $this->remotehost) . '</div><br/>'
                   . '<input type="hidden" name="id" value="' . $this->cm->id . '">'
@@ -148,7 +148,7 @@ class assignment_mahara extends assignment_base {
         }
         $data = unserialize($submission->data2);
         return '<div><a href="' . $CFG->wwwroot . '/auth/mnet/jump.php?hostid=' . $this->remote_mnet_host_id()
-          . '&amp;wantsurl=' . urlencode($data['url']) . '">' 
+          . '&amp;wantsurl=' . urlencode($data['url']) . '">'
           . $data['title'] . '</a></div>';
     }
 
@@ -157,22 +157,22 @@ class assignment_mahara extends assignment_base {
     }
 
     function setup_elements(&$mform) {
-        global $CFG, $COURSE;
+        global $CFG, $COURSE, $DB;
 
         // Get Mahara hosts we are doing SSO with
         $sql = "
-             SELECT DISTINCT 
-                 h.id, 
+             SELECT DISTINCT
+                 h.id,
                  h.name
-             FROM 
-                 {$CFG->prefix}mnet_host h,
-                 {$CFG->prefix}mnet_application a,
-                 {$CFG->prefix}mnet_host2service h2s_IDP,
-                 {$CFG->prefix}mnet_service s_IDP,
-                 {$CFG->prefix}mnet_host2service h2s_SP,
-                 {$CFG->prefix}mnet_service s_SP
+             FROM
+                 {mnet_host} h,
+                 {mnet_application} a,
+                 {mnet_host2service} h2s_IDP,
+                 {mnet_service} s_IDP,
+                 {mnet_host2service} h2s_SP,
+                 {mnet_service} s_SP
              WHERE
-                 h.id != '{$CFG->mnet_localhost_id}' AND
+                 h.id != :mnet_localhost_id AND
                  h.id = h2s_IDP.hostid AND
                  h.deleted = 0 AND
                  h.applicationid = a.id AND
@@ -187,7 +187,7 @@ class assignment_mahara extends assignment_base {
              ORDER BY
                  h.name";
 
-        if ($hosts = get_records_sql($sql)) {
+        if ($hosts = $DB->get_records_sql($sql, array('mnet_localhost_id'=>$CFG->mnet_localhost_id))) {
             foreach ($hosts as &$h) {
                 $h = $h->name;
             }
