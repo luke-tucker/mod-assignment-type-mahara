@@ -235,7 +235,7 @@ class assignment_mahara extends assignment_base {
         require_once $CFG->dirroot . '/mnet/xmlrpc/client.php';
         $mnet_sp = $this->get_mnet_sp();
         $mnetrequest = new mnet_xmlrpc_client();
-        $mnetrequest->set_method('mod/mahara/rpclib.php/submit_view_for_assessment');
+        $mnetrequest->set_method('mod/assignment/type/mahara/rpclib.php/submit_view_for_assessment');
         $mnetrequest->add_param($USER->username);
         $mnetrequest->add_param($viewid);
 
@@ -320,14 +320,14 @@ class assignment_mahara extends assignment_base {
             require_once $CFG->dirroot . '/mnet/xmlrpc/client.php';
             $mnet_sp = $this->get_mnet_sp();
             $mnetrequest = new mnet_xmlrpc_client();
-            $mnetrequest->set_method('mod/mahara/rpclib.php/get_views_for_user');
+            $mnetrequest->set_method('mod/assignment/type/mahara/rpclib.php/get_views_for_user');
             $mnetrequest->add_param($USER->username);
             $mnetrequest->add_param($query);
 
             if ($mnetrequest->send($mnet_sp) === true) {
                 $viewdata = $mnetrequest->response;
             } else {
-                $error = "RPC mod/mahara/rpclib.php/get_views_for_user:<br/>";
+                $error = "RPC mod/assignment/type/mahara/rpclib.php/get_views_for_user:<br/>";
                 foreach ($mnetrequest->error as $errormessage) {
                     list($code, $errormessage) = array_map('trim',explode(':', $errormessage, 2));
                     $error .= "ERROR $code:<br/>$errormessage<br/>";
@@ -375,7 +375,7 @@ class assignment_mahara extends assignment_base {
         require_once $CFG->dirroot . '/mnet/xmlrpc/client.php';
         $mnet_sp = $this->get_mnet_sp();
         $mnetrequest = new mnet_xmlrpc_client();
-        $mnetrequest->set_method('mod/mahara/rpclib.php/release_submitted_view');
+        $mnetrequest->set_method('mod/assignment/type/mahara/rpclib.php/release_submitted_view');
         $mnetrequest->add_param($data['id']);
         $mnetrequest->add_param($viewoutcomes);
         $mnetrequest->add_param($USER->username);
