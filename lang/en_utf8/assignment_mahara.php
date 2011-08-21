@@ -1,6 +1,7 @@
-<?PHP // $Id$ 
-      // 
+<?PHP // $Id$
+      //
 
+$string['pluginname'] = 'Mahara assignment';
 $string['clicktopreview'] = 'click to preview in full-size popup';
 $string['clicktoselect'] = 'click to select view';
 $string['noviewsfound'] = 'You have not created any views in $a';
