@@ -16,7 +16,7 @@ class assignment_mahara extends assignment_base {
 
     function view() {
 
-        global $CFG, $USER, $DB;
+        global $CFG, $USER, $DB, $OUTPUT;
 
         $saved = optional_param('saved', 0, PARAM_BOOL);
 
@@ -48,12 +48,12 @@ class assignment_mahara extends assignment_base {
         $this->view_intro();
 
 
-        print_box_start('generalbox boxwidthnormal boxaligncenter', 'dates');
+        $OUTPUT->box_start('generalbox boxwidthnormal boxaligncenter', 'dates');
         $this->view_dates();
-        print_box_end();
+        $OUTPUT->box_end();
 
 
-        print_box_start('generalbox boxwidthnormal boxaligncenter centerpara');
+        $OUTPUT->box_start('generalbox boxwidthnormal boxaligncenter centerpara');
 
         if ($submission) {
             if ($saved) {
@@ -107,7 +107,7 @@ class assignment_mahara extends assignment_base {
             }
 
         }
-        print_box_end();
+        $OUTPUT->box_end();
 
         $this->view_feedback();
 
@@ -192,25 +192,26 @@ class assignment_mahara extends assignment_base {
                 $h = $h->name;
             }
             $mform->addElement('select', 'var2', get_string("site"), $hosts);
-            $mform->setHelpButton('var2', array('var2', get_string('site', 'assignment'), 'assignment'));
+            $mform->addHelpButton('var2', 'site', 'assignment_mahara');
             $mform->setDefault('var2', key($hosts));
         }
         else {
-            $mform->addElement('static', '', '', get_string('nomaharahostsfound', 'assignment'));
+            // TODO: Should probably error out if no mahara hosts found?
+            $mform->addElement('static', '', '', get_string('nomaharahostsfound', 'assignment_mahara'));
         }
 
         $ynoptions = array( 0 => get_string('no'), 1 => get_string('yes'));
 
         $mform->addElement('select', 'resubmit', get_string("allowresubmit", "assignment"), $ynoptions);
-        $mform->setHelpButton('resubmit', array('resubmit', get_string('allowresubmit', 'assignment'), 'assignment'));
+        $mform->addHelpButton('resubmit', 'allowresubmit', 'assignment');
         $mform->setDefault('resubmit', 0);
 
         $mform->addElement('select', 'emailteachers', get_string("emailteachers", "assignment"), $ynoptions);
-        $mform->setHelpButton('emailteachers', array('emailteachers', get_string('emailteachers', 'assignment'), 'assignment'));
+        $mform->addHelpButton('emailteachers', 'emailteachers', 'assignment');
         $mform->setDefault('emailteachers', 0);
 
         $mform->addElement('select', 'var1', get_string("commentinline", "assignment"), $ynoptions);
-        $mform->setHelpButton('var1', array('commentinline', get_string('commentinline', 'assignment'), 'assignment'));
+        $mform->addHelpButton('var1', 'commentinline', 'assignment');
         $mform->setDefault('var1', 0);
 
     }
