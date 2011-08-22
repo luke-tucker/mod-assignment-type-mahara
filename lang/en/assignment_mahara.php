@@ -8,6 +8,8 @@ $string['nomaharahostsfound'] = 'No mahara hosts found.';
 $string['noviewscreated'] = 'You have not created any views in {$a}.';
 $string['noviewsfound'] = 'No matching views found in {$a}.';
 $string['preview'] = 'Preview';
+$string['site'] = 'Site';
+$string['site_help'] = 'This setting lets you select which Mahara site your students should submit their views from. (The Mahara site must already be configured for mnet networking with this Moodle site.)';
 $string['selectedview'] = 'Submitted View';
 $string['selectmaharaview'] = 'Select one of your {$a->name} portfolio views from this complete list, or <a href="{$a->jumpurl}">click here</a> to visit {$a->name} and create a view right now.';
 $string['title'] = 'Title';
