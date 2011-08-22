@@ -67,7 +67,7 @@ class assignment_mahara extends assignment_base {
         }
 
         if ($submission && $editable) {
-            echo '<hr>';
+            echo '<hr />';
         }
 
         if ($editable) {
