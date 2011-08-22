@@ -99,7 +99,7 @@ class assignment_mahara extends assignment_base {
                         $viewurl = $this->remotehost->jumpurl . '&wantsurl=' . urlencode($v['url']);
                         $js = "this.target='$windowname';window.open('" . $viewurl . "', '$windowname', 'resizable,scrollbars,width=920,height=600');return false;";
                         echo '<tr><td><a href="' . $viewurl . '" target="_blank" onclick="' . $js . '">'
-                          . '<img align="top" src="'.$CFG->pixpath.'/f/html.gif" height="16" width="16" alt="html" /> ' . $v['title'] . '</a></td>'
+                          . '<img align="top" src="' . $OUTPUT->pix_url('f/html') . '" height="16" width="16" alt="html" /> ' . $v['title'] . '</a></td>'
                           . '<td><a href="?id=' . $this->cm->id. '&view=' . $v['id'] . '">' . get_string('submit') . '</a></td></tr>';
                     }
                     echo '</tbody></table>';
@@ -229,7 +229,7 @@ class assignment_mahara extends assignment_base {
     }
 
     function submit_view($viewid) {
-        global $CFG, $USER, $MNET;
+        global $CFG, $USER, $MNET, $DB;
 
         $submission = $this->get_submission($USER->id, true);
 
@@ -244,10 +244,11 @@ class assignment_mahara extends assignment_base {
             return false;
         }
         $data = $mnetrequest->response;
+        $rawoutcomes = isset($data['outcome']) ? $data['outcome'] : array();
 
         $mahara_outcomes = array();
 
-        foreach ($data['outcome'] as &$o) {
+        foreach ($rawoutcomes as &$o) {
             $scale1 = array();
             foreach ($o['scale'] as &$item) {
                 $scale1[$item['value']] = $item['name'];
@@ -256,13 +257,14 @@ class assignment_mahara extends assignment_base {
         }
 
         unset($data['outcome']);
+        unset($rawoutcomes);
 
         $update = new object();
         $update->id           = $submission->id;
         $update->timemodified = time();
 
-        $update->data1 = addslashes('<a href="' . $data['fullurl'] . '">' . clean_text($data['title']) . '</a>');
-        $update->data2 = addslashes(serialize($data));
+        $update->data1 = '<a href="' . $data['fullurl'] . '">' . clean_text($data['title']) . '</a>';
+        $update->data2 = serialize($data);
 
 
         // If mahara sent attached outcomes along with the view, and we have outcomes here with
@@ -298,7 +300,7 @@ class assignment_mahara extends assignment_base {
             }
         }
 
-        if (!update_record('assignment_submissions', $update)) {
+        if (!$DB->update_record('assignment_submissions', $update)) {
             return false;
         }
 
