@@ -145,19 +145,24 @@ class assignment_mahara extends assignment_base {
         echo '</table>';
     }
 
-    function print_student_answer($userid, $return=false){
+    function print_student_answer($userid, $return=true){
         global $CFG;
         if (!$submission = $this->get_submission($userid)) {
             return '';
         }
         $data = unserialize($submission->data2);
-        return '<div><a href="' . $CFG->wwwroot . '/auth/mnet/jump.php?hostid=' . $this->remote_mnet_host_id()
+        $ret = '<div><a href="' . $CFG->wwwroot . '/auth/mnet/jump.php?hostid=' . $this->remote_mnet_host_id()
           . '&amp;wantsurl=' . urlencode($data['url']) . '">'
           . $data['title'] . '</a></div>';
+        if ($return){
+            return $ret;
+        } else {
+            echo $ret;
+        }
     }
 
-    function print_user_files($userid, $return=false) {
-        echo $this->print_student_answer($userid, $return);
+    function print_user_files($userid, $return=true) {
+        return $this->print_student_answer($userid, $return);
     }
 
     function setup_elements(&$mform) {
