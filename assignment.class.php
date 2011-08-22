@@ -85,7 +85,11 @@ class assignment_mahara extends assignment_base {
                   . '<label for="q">' . get_string('search') . ':</label> <input type="text" name="q" value="' . $query . '">'
                   . '</form>';
                 if ($views['count'] < 1) {
-                    echo get_string('noviewsfound', 'assignment_mahara', $this->remotehost->name);
+                    if ($query){
+                        echo get_string('noviewsfound', 'assignment_mahara', $this->remotehost->name);
+                    } else {
+                        echo get_string('noviewscreated', 'assignment_mahara', $this->remotehost->name);
+                    }
                 } else {
                     echo '<h4>' . $this->remotehost->name . ': ' . get_string('viewsby', 'assignment_mahara', $views['displayname']) . '</h4>';
                     echo '<table class="formtable"><thead>'
