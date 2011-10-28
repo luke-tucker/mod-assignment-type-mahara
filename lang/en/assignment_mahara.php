@@ -1,6 +1,4 @@
-<?PHP // $Id$
-      //
-
+<?php
 $string['pluginname'] = 'Mahara portfolio';
 $string['clicktopreview'] = 'click to preview in full-size popup';
 $string['clicktoselect'] = 'click to select page';
@@ -16,5 +14,3 @@ $string['title'] = 'Title';
 $string['typemahara'] = 'Mahara portfolio';
 $string['views'] = 'Pages';
 $string['viewsby'] = 'Pages by {$a}';
-
-?>

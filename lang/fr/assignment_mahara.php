@@ -1,6 +1,4 @@
-<?PHP // $Id$ 
-      // 
-
+<?php
 $string['clicktopreview'] = 'cliquez pour un aperçu en pleine taille';
 $string['clicktoselect'] = 'cliquez pour sélectionez l\'exposition';
 $string['noviewsfound'] = 'Vous n\'avez créé aucune exposition dans $a';
@@ -11,5 +9,3 @@ $string['title'] = 'Titre';
 $string['typemahara'] = 'Portfolio Mahara';
 $string['views'] = 'Expositions';
 $string['viewsby'] = 'Expositions par $a';
-
-?>
