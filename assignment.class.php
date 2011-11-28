@@ -219,10 +219,6 @@ class assignment_mahara extends assignment_base {
         $mform->addHelpButton('emailteachers', 'emailteachers', 'assignment');
         $mform->setDefault('emailteachers', 0);
 
-        $mform->addElement('select', 'var1', get_string("commentinline", "assignment"), $ynoptions);
-        $mform->addHelpButton('var1', 'commentinline', 'assignment');
-        $mform->setDefault('var1', 0);
-
     }
 
     function remote_mnet_host_id() {
