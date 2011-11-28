@@ -288,7 +288,7 @@ class assignment_mahara extends assignment_base {
             foreach($grading_info->outcomes as $o) {
                 // If we already have a grade for this outcome, the assignment is just a
                 // resubmission, not a new import.  Ignore it.
-                if ($o->grades[$userid] && $o->grades[$userid]->grade) {
+                if ($o->grades[$USER->id] && $o->grades[$USER->id]->grade) {
                     continue;
                 }
                 if (isset($mahara_outcomes[$o->name])) {
