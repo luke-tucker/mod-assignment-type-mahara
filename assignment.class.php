@@ -26,7 +26,7 @@ class assignment_mahara extends assignment_base {
         $submission = $this->get_submission();
 
         $editable = has_capability('mod/assignment:submit', $context) && $this->isopen()
-            && (!$submission || $this->assignment->resubmit || !$submission->timemarked);
+            && (!$submission || ($this->assignment->resubmit && $submission->timemarked));
 
         if ($editable) {
             $viewid = optional_param('view', null, PARAM_INTEGER);
